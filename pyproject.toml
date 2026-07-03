@@ -1,0 +1,40 @@
+[project]
+name = "histogs"
+version = "0.1.0"
+description = "HistoGS: 3D Gaussian-splatting gene-expression field for serial-section ST, with ASIGN benchmark reproduction."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    # --- deep learning core (CUDA 12.6 build, pinned to the farm's toolkit) ---
+    "torch==2.7.1",
+    "torchvision==0.22.1",
+    "torch-geometric==2.6.1",   # only needed to unpickle ASIGN's HeteroData .pt graphs
+    # --- scientific stack ---
+    "numpy>=1.26,<2.3",
+    "pandas>=2.0",
+    "scipy>=1.11",
+    "scikit-learn>=1.3",
+    "pillow>=10.0",
+    "tqdm>=4.60",
+    "pyyaml>=6.0",
+    "openpyxl>=3.1",            # ASIGN writes ours_metrics.xlsx
+    "tensorboardx>=2.6",        # ASIGN SummaryWriter (optional logging)
+    "protobuf>=4.0",            # tensorboardx runtime dep
+    # --- visualization (3D viz skill, figures) ---
+    "matplotlib>=3.7",
+    "plotly>=5.20",
+    "h5py>=3.16.0",
+]
+
+[tool.uv]
+# Reuse nothing from the system; this is a self-contained env.
+package = false
+
+# Pull torch/torchvision from PyTorch's CUDA 12.6 wheel index, everything else from PyPI.
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+torchvision = { index = "pytorch-cu126" }
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true

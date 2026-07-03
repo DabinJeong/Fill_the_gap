@@ -1,0 +1,48 @@
+# DLPFC (DLPFC_3D): ASIGN 3D sample-wise protocol.
+# level==1 known -> predict level>1 (levels 2,3,4). 3 donors.
+dataset:
+  root: /lustre/scratch126/cellgen/lotfollahi/dj16/data/public_serial_sections
+  name: DLPFC_3D
+  samples: [donor1]
+  held_out_parity: even
+  train_levels: [1]
+  heldout_levels: [2, 3, 4, 5, 6]
+  z_spacing: 1.0
+  G: 250
+
+model:
+  init_opacity: 0.9
+  scale_knn: 3
+  init_scale_mult: 2.0
+  densify_z: false
+
+render:
+  knn_k: 32
+  chunk: 8192
+
+optim:
+  iterations: 0
+  lr_xyz: 0.0
+  lr_feature: 0.0
+  lr_opacity: 2.0e-2
+  lr_scaling: 2.0e-3
+  lr_rotation: 2.0e-3
+
+densify:
+  start: 1
+  end: 0
+  interval: 100
+  grad_thresh: 2.0e-4
+  min_opacity: 0.005
+  opacity_reset_interval: 0
+  max_gaussians: 200000
+
+loss:
+  w_cos: 0.0
+  w_opacity: 0.0
+  w_scale: 0.0
+
+output_dir: /lustre/scratch126/cellgen/lotfollahi/dj16/projects/HistoGS/runs/dlpfc
+device: cuda
+seed: 0
+log_interval: 200
